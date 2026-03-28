@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "nano-banana": {
+      "command": "node",
+      "args": ["mcps/nano-banana-mcp/build/index.js"],
+      "disabled": true
+    },
+    "figma-context": {
+      "command": "node",
+      "args": ["mcps/figma-mcp/build/index.js"],
+      "disabled": true
+    }
+  }
+}
