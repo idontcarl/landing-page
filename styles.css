@@ -478,12 +478,15 @@ a {
 
 /* --- Responsive Adjustments for Intro --- */
 @media (max-width: 1024px) {
+  .intro-section {
+    padding: 4.5rem 2.5rem;
+  }
   .intro-name, .endorsements-heading {
-    font-size: 3.5rem;
+    font-size: clamp(2.8rem, 5vw, 4rem);
   }
   .intro-header, .intro-main {
-    grid-template-columns: 1fr;
-    gap: 3rem;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
   }
 }
 
@@ -1834,15 +1837,25 @@ a, button {
    ============================================================== */
 @media (max-width: 1024px) {
   .hero-title {
-    font-size: 3rem;
+    font-size: clamp(3rem, 6vw, 4.2rem);
   }
 
   .hero-illustration {
-    width: 320px;
+    width: clamp(280px, 35vw, 420px);
   }
 
   .pillars-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3rem 2rem;
+  }
+  
+  .stats-outer-container {
+    padding: 4.5rem 2.5rem;
   }
 
   .techstack-grid {
@@ -1851,7 +1864,20 @@ a, button {
   }
 
   .cert-heading {
-    font-size: 2.2rem;
+    font-size: clamp(2rem, 4vw, 3rem);
+  }
+
+  .cert-logos-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .testimonials-content {
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: 2rem;
+  }
+
+  .testimonials-image-bar {
+    flex: 0 0 100px;
   }
 
   .projects-carousel-container {
@@ -1866,6 +1892,11 @@ a, button {
   .project-slide {
     width: min(74vw, 620px);
     height: clamp(290px, 42vw, 420px);
+  }
+
+  .footer-container {
+    padding: 4rem 2rem;
+    gap: 3rem;
   }
 }
 
@@ -2504,6 +2535,14 @@ a, button {
   50%  { text-shadow:  1px -1px 0 rgba(255,0,0,0.8),  -1px  1px 0 rgba(0,255,255,0.8); }
   75%  { text-shadow: -1px  0px 0 rgba(255,0,0,0.8),   1px  1px 0 rgba(0,255,255,0.8); }
   100% { text-shadow:  1px  0px 0 rgba(255,0,0,0.8),  -1px  0px 0 rgba(0,255,255,0.8); }
+}
+
+@media (max-width: 1024px) {
+  .top-nav {
+    top: 2rem;
+    right: 2.5rem;
+    gap: 1.5rem;
+  }
 }
 
 @media (max-width: 768px) {
