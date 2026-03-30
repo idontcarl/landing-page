@@ -297,6 +297,10 @@ a {
   letter-spacing: 1px;
 }
 
+.hero-subtext-num {
+  font-family: Arial, Helvetica, sans-serif !important;
+}
+
 /* --- Divider --- */
 .hero-divider {
   border: none;

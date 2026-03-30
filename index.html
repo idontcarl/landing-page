@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://*.axept.io https://*.googletagmanager.com https://*.clarity.ms https://cdnjs.cloudflare.com https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*.clarity.ms https://*.google-analytics.com https://*.axept.io; frame-src 'self' https://*.googletagmanager.com; media-src 'self';">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <!-- Axeptio Cookie Consent -->
   <script>
   window.axeptioSettings = {
@@ -10,7 +12,7 @@
    
   (function(d, s) {
     var t = d.getElementsByTagName(s)[0], e = d.createElement(s);
-    e.async = true; e.src = "//static.axept.io/sdk.js";
+    e.async = true; e.src = "https://static.axept.io/sdk.js";
     t.parentNode.insertBefore(e, t);
   })(document, "script");
   </script>
@@ -46,6 +48,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Carl Inaudito | The Rhythm of Revenue. The Geometry of Growth.</title>
   <meta name="description" content="A multidisciplinary marketing leader and a Socratic visionary driving more than twelve years of digital transformation at the intersection of creative strategy and business analytics.">
+  <link rel="canonical" href="https://carlinaudito.works/">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Josefin+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -111,7 +114,7 @@
       </div>
 
       <!-- Subtext (all caps, Coco Gothic, yellow) -->
-      <p class="hero-subtext">A SOCRATIC VISIONARY DRIVING <span style="font-family: Arial, Helvetica, sans-serif !important;">12+</span> YEARS OF<br>DIGITAL TRANSFORMATION AT THE INTERSECTION<br>OF CREATIVE STRATEGY AND BUSINESS ANALYTICS</p>
+      <p class="hero-subtext">A SOCRATIC VISIONARY DRIVING <span class="hero-subtext-num">12+</span> YEARS OF<br>DIGITAL TRANSFORMATION AT THE INTERSECTION<br>OF CREATIVE STRATEGY AND BUSINESS ANALYTICS</p>
 
       <!-- Divider line -->
       <hr class="hero-divider">
@@ -982,9 +985,9 @@
     </div>
   </footer>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
-  <script src="https://unpkg.com/split-type" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha512-7eHRwcbYkK4d9g/6tD/mhkf++eoTHwpNM9woBxtPUBWm67zeAfFC+HrdoE2GanKeocly/VxeLvIqwvCdk7qScg==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" integrity="sha512-onMTRKJBKz8M1TnqqDuGBlowlH0ohFzMXYRNebz+yO5097ugn88jH0PudG1lH2w1E4m1eGj7qX1hO++e+S5LUA==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
+  <script src="https://unpkg.com/split-type@0.3.3/umd/index.min.js" crossorigin="anonymous" defer></script>
   <script src="script.js" defer></script>
 
   <!-- Custom Glassmorphism Cursor -->
