@@ -3,6 +3,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const supportsFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   const mobileToggleActions = 'play none none none';
 
+  if (window.gsap && window.ScrollTrigger) {
+    gsap.registerPlugin(ScrollTrigger);
+  }
+
   // ==============================
   // Hero reveal loader (cropped -> expand)
   // ==============================
