@@ -165,6 +165,12 @@ a {
   color: inherit;
 }
 
+/* Hide the native iOS play button overlay when autoplay is blocked */
+video::-webkit-media-controls-start-playback-button {
+  display: none !important;
+  -webkit-appearance: none !important;
+}
+
 /* ==============================================================
    SECTION 1: HERO
    ============================================================== */
