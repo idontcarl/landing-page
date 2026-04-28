@@ -1464,6 +1464,7 @@ video::-webkit-media-controls-start-playback-button {
   object-fit: contain;
 }
 
+.gdg-logo { max-height: 75px; }
 .aap-logo { max-height: 85px; }
 .haribon-logo { max-height: 130px; }
 .akbayan-logo { max-height: 95px; }
@@ -2119,11 +2120,16 @@ a, button {
     justify-content: center;
   }
 
+  .intro-header,
   .intro-main,
   .techstack-grid {
     display: flex;
     flex-direction: column;
     gap: 2rem;
+  }
+
+  .intro-header {
+    align-items: flex-start;
   }
 
   .intro-main {
