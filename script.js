@@ -473,10 +473,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Clashing Cards Animation
   const techCards = gsap.utils.toArray('.tech-card');
+  const isTabletViewport = window.matchMedia('(max-width: 1024px)').matches;
+  const techCardOffset = isMobileViewport ? 24 : (isTabletViewport ? 90 : 150);
   
   techCards.forEach((card, i) => {
     const isLeft = i % 2 === 0;
-    const offset = isMobileViewport ? 60 : 150;
 
     gsap.from(card, {
       scrollTrigger: isMobileViewport
@@ -491,7 +492,7 @@ document.addEventListener('DOMContentLoaded', () => {
             end: 'top 75%',
             scrub: 1,
           },
-      x: isLeft ? -offset : offset,
+      x: isLeft ? -techCardOffset : techCardOffset,
       opacity: 0,
       duration: 1,
       ease: 'power2.out'
