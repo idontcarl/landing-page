@@ -1,4 +1,7 @@
 {
+  "name": "landing-page-design",
+  "version": "1.0.0",
+  "description": "Carl Inaudito landing page",
   "dependencies": {
     "@microsoft/clarity": "^1.0.2"
   }

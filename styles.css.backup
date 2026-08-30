@@ -89,25 +89,6 @@ html {
   font-size: 16px;
 }
 
-/* --- ACCESSIBILITY: REDUCE MOTION --- */
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-  .pillar-column {
-    animation: none !important;
-  }
-  .custom-cursor {
-    display: none !important;
-  }
-  .marquee-track {
-    animation: none !important;
-  }
-}
-
 body {
   font-family: var(--font-body);
   background-color: var(--cream);
@@ -812,7 +793,7 @@ video::-webkit-media-controls-start-playback-button {
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
-  max-width: 1200px;
+  min-width: 1200px;
   height: auto;
   opacity: 1; /* Retain original asset opacity */
   pointer-events: none;
@@ -2375,7 +2356,7 @@ a, button {
   }
 
   .cert-logos-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
   }
 
   .membership-logos {
