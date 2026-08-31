@@ -4,6 +4,21 @@ document.addEventListener('DOMContentLoaded', () => {
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const mobileToggleActions = 'play none none none';
 
+  if (isMobileViewport || reducedMotion) {
+    const heroVideo = document.querySelector('.hero-video');
+    const heroRevealLoader = document.getElementById('hero-reveal-loader');
+
+    if (heroVideo) {
+      heroVideo.pause();
+      heroVideo.removeAttribute('autoplay');
+      heroVideo.style.display = 'none';
+    }
+
+    if (heroRevealLoader) {
+      heroRevealLoader.remove();
+    }
+  }
+
   if (reducedMotion) {
     document.body.classList.add('reduced-motion');
   }
@@ -21,8 +36,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const heroVideo = document.querySelector('.hero-video');
 
   if (heroRevealLoader && heroRevealWindow && window.gsap) {
-    if (reducedMotion) {
+    if (isMobileViewport || reducedMotion) {
       heroRevealLoader.remove();
+      return;
     }
 
     let hasPlayedHeroReveal = false;
