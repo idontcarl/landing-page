@@ -5,32 +5,39 @@ document.addEventListener('DOMContentLoaded', () => {
   const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
   const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
   const shouldUseStaticHero = reducedMotion;
+  const shouldSkipHeroReveal = reducedMotion || isMobileViewport || (isIOS && isSafari);
   const mobileToggleActions = 'play none none none';
-
-  // Ensure hero video plays on all devices, including mobile Safari
+  const heroRevealLoader = document.getElementById('hero-reveal-loader');
+  const heroRevealWindow = heroRevealLoader?.querySelector('.hero-reveal-window');
+  const heroRevealVideo = heroRevealLoader?.querySelector('.hero-reveal-video');
   const heroVideo = document.querySelector('.hero-video');
-  if (heroVideo && !shouldUseStaticHero) {
-    // Show the video and ensure it's ready to play
-    heroVideo.style.display = 'block';
-    heroVideo.setAttribute('autoplay', '');
-    heroVideo.setAttribute('muted', '');
-    heroVideo.setAttribute('loop', '');
-    heroVideo.setAttribute('playsinline', '');
-    
-    // Attempt to play immediately
-    const playAttempt = heroVideo.play();
+
+  const configureAndPlayVideo = (video) => {
+    if (!video || shouldUseStaticHero) return;
+
+    // The JS property is required by some mobile browsers; the HTML attributes
+    // alone are not always enough to permit muted inline autoplay.
+    video.muted = true;
+    video.defaultMuted = true;
+    video.loop = true;
+    video.playsInline = true;
+    video.setAttribute('muted', '');
+    video.setAttribute('playsinline', '');
+
+    const playAttempt = video.play();
     if (playAttempt && typeof playAttempt.catch === 'function') {
       playAttempt.catch(() => {
-        // If autoplay fails, set up click handler to play on user interaction
-        document.addEventListener('click', () => {
-          heroVideo.play().catch(() => {});
-        }, { once: true });
+        // Keep the poster/fallback visible if autoplay is disallowed. A later
+        // user gesture may still begin the muted loop without blocking the page.
+        document.addEventListener('pointerdown', () => video.play().catch(() => {}), { once: true, passive: true });
       });
     }
-  }
+  };
+
+  configureAndPlayVideo(heroVideo);
+  if (!shouldSkipHeroReveal) configureAndPlayVideo(heroRevealVideo);
 
   if (shouldUseStaticHero) {
-    const heroRevealLoader = document.getElementById('hero-reveal-loader');
     if (heroVideo) {
       heroVideo.pause();
       heroVideo.removeAttribute('autoplay');
@@ -52,74 +59,66 @@ document.addEventListener('DOMContentLoaded', () => {
   // ==============================
   // Hero reveal loader (cropped -> expand)
   // ==============================
-  const heroRevealLoader = document.getElementById('hero-reveal-loader');
-  const heroRevealWindow = heroRevealLoader?.querySelector('.hero-reveal-window');
-  const heroRevealVideo = heroRevealLoader?.querySelector('.hero-reveal-video');
-  const heroVideo = document.querySelector('.hero-video');
-
-  if (heroRevealLoader && heroRevealWindow && window.gsap) {
-    if ((isIOS && isSafari) || reducedMotion) {
-      heroRevealLoader.remove();
-      return;
-    }
-
-    let hasPlayedHeroReveal = false;
-
+  if (heroRevealLoader && heroRevealWindow) {
     const finishHeroReveal = () => {
-      heroRevealLoader.remove();
+      if (heroRevealLoader.isConnected) heroRevealLoader.remove();
     };
 
-    // Keep hero video aligned with loader video to avoid visual jumps on handoff.
-    if (heroVideo) {
-      heroVideo.pause();
-    }
-
-    const playHeroReveal = () => {
-      if (hasPlayedHeroReveal || !document.body.contains(heroRevealLoader)) {
-        return;
-      }
-      hasPlayedHeroReveal = true;
-
-      const cropWidth = Math.min(window.innerWidth * 0.78, 520);
-      const cropHeight = cropWidth / 3.2;
-      const horizontalInset = Math.max(0, (window.innerWidth - cropWidth) / 2);
-      const verticalInset = Math.max(0, (window.innerHeight - cropHeight) / 2);
-
-      gsap.set(heroRevealWindow, {
-        clipPath: `inset(${verticalInset}px ${horizontalInset}px ${verticalInset}px ${horizontalInset}px round 6px)`
-      });
-
-      gsap.timeline({ onComplete: finishHeroReveal })
-        .to(heroRevealWindow, {
-          clipPath: 'inset(0px 0px 0px 0px round 0px)',
-          duration: 1.05,
-          ease: 'power3.inOut'
-        })
-        .add(() => {
-          if (heroVideo && heroRevealVideo) {
-            try {
-              heroVideo.currentTime = heroRevealVideo.currentTime;
-            } catch (e) {
-              // Ignore sync errors on browsers that restrict setting currentTime early.
-            }
-            const playPromise = heroVideo.play();
-            if (playPromise && typeof playPromise.catch === 'function') {
-              playPromise.catch(() => {});
-            }
-          }
-        }, '-=0.18')
-        .to(heroRevealLoader, {
-          autoAlpha: 0,
-          duration: 0.45,
-          ease: 'power1.inOut'
-        }, '-=0.12');
-    };
-
-    if (document.readyState === 'complete') {
-      requestAnimationFrame(playHeroReveal);
+    // The reveal is decorative. Never let an unavailable animation library,
+    // reduced-motion preference, or platform-specific media restriction stop
+    // visitors from reaching the page.
+    if (!window.gsap || shouldSkipHeroReveal) {
+      finishHeroReveal();
     } else {
-      window.addEventListener('load', () => requestAnimationFrame(playHeroReveal), { once: true });
-      setTimeout(playHeroReveal, 4500);
+      let hasPlayedHeroReveal = false;
+
+      // Keep hero video aligned with loader video to avoid visual jumps on handoff.
+      if (heroVideo) heroVideo.pause();
+
+      const playHeroReveal = () => {
+        if (hasPlayedHeroReveal || !heroRevealLoader.isConnected) return;
+        hasPlayedHeroReveal = true;
+
+        const cropWidth = Math.min(window.innerWidth * 0.78, 520);
+        const cropHeight = cropWidth / 3.2;
+        const horizontalInset = Math.max(0, (window.innerWidth - cropWidth) / 2);
+        const verticalInset = Math.max(0, (window.innerHeight - cropHeight) / 2);
+
+        gsap.set(heroRevealWindow, {
+          clipPath: `inset(${verticalInset}px ${horizontalInset}px ${verticalInset}px ${horizontalInset}px round 6px)`
+        });
+
+        gsap.timeline({ onComplete: finishHeroReveal })
+          .to(heroRevealWindow, {
+            clipPath: 'inset(0px 0px 0px 0px round 0px)',
+            duration: 1.05,
+            ease: 'power3.inOut'
+          })
+          .add(() => {
+            if (heroVideo && heroRevealVideo) {
+              try {
+                heroVideo.currentTime = heroRevealVideo.currentTime;
+              } catch (e) {
+                // Ignore sync errors on browsers that restrict setting currentTime early.
+              }
+            }
+            configureAndPlayVideo(heroVideo);
+          }, '-=0.18')
+          .to(heroRevealLoader, {
+            autoAlpha: 0,
+            duration: 0.45,
+            ease: 'power1.inOut'
+          }, '-=0.12');
+      };
+
+      // Do not wait indefinitely for third-party scripts, fonts, or video bytes.
+      // The timeout guarantees the page is usable even if `load` never fires.
+      if (document.readyState === 'complete') {
+        requestAnimationFrame(playHeroReveal);
+      } else {
+        window.addEventListener('load', () => requestAnimationFrame(playHeroReveal), { once: true });
+        setTimeout(playHeroReveal, 1800);
+      }
     }
   }
 
