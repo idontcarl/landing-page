@@ -106,6 +106,24 @@ html {
   .marquee-track {
     animation: none !important;
   }
+  .hero-reveal-loader {
+    display: none !important;
+  }
+  .hero-title,
+  .hero-subtext,
+  .intro-label,
+  .intro-name,
+  .intro-subheadline,
+  .intro-paragraph,
+  .endorsements-heading,
+  .endorsement-quote,
+  .endorsement-author,
+  .stat-item,
+  .fade-in-up {
+    opacity: 1 !important;
+    filter: none !important;
+    transform: none !important;
+  }
 }
 
 body {

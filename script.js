@@ -1,7 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
   const isMobileViewport = window.matchMedia('(max-width: 768px)').matches;
   const supportsFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const mobileToggleActions = 'play none none none';
+
+  if (reducedMotion) {
+    document.body.classList.add('reduced-motion');
+  }
 
   if (window.gsap && window.ScrollTrigger) {
     gsap.registerPlugin(ScrollTrigger);
@@ -16,6 +21,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const heroVideo = document.querySelector('.hero-video');
 
   if (heroRevealLoader && heroRevealWindow && window.gsap) {
+    if (reducedMotion) {
+      heroRevealLoader.remove();
+    }
+
     let hasPlayedHeroReveal = false;
 
     const finishHeroReveal = () => {
@@ -367,7 +376,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const heroHeading2 = new SplitType('.hero-text-right .hero-title', { types: 'words' });
   const heroSub = new SplitType('.hero-subtext', { types: 'words' });
 
-  if (heroHeading1.words) {
+  if (!reducedMotion && heroHeading1.words) {
     gsap.from([heroHeading1.words, heroHeading2.words, heroSub.words], {
       filter: 'blur(20px)',
       opacity: 0,
@@ -399,7 +408,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  if (allWords.length > 0) {
+  if (!reducedMotion && allWords.length > 0) {
     gsap.from(allWords, {
       scrollTrigger: isMobileViewport
         ? {
