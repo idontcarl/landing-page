@@ -2395,20 +2395,42 @@ a, button {
   .footer-content-right {
     width: 100%;
     max-width: 480px;
-    margin: -12px auto 0;
+    margin: 0 auto;
     justify-content: center;
     align-items: flex-end;
+    position: relative;
+    z-index: 2;
   }
 
   .footer-portrait {
     width: min(100%, 440px);
-    margin: 0 auto -6px;
+    margin: 0 auto -50px -8px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .footer-section {
+    position: relative;
+  }
+
+  .footer-loop-bg {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
   }
 
   .footer-corner {
     width: 60px;
     left: 1rem;
     top: 1rem;
+    z-index: 3;
+  }
+
+  .footer-bottom-strip {
+    position: relative;
+    z-index: 3;
   }
 
   .about-name {
