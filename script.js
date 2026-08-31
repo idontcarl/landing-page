@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
   const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-  const shouldUseStaticHero = (isIOS && isSafari) || (isMobileViewport && !window.matchMedia('(min-width: 769px)').matches);
+  const shouldUseStaticHero = (isIOS && isSafari) || reducedMotion;
   const mobileToggleActions = 'play none none none';
 
   if (shouldUseStaticHero) {
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const heroVideo = document.querySelector('.hero-video');
 
   if (heroRevealLoader && heroRevealWindow && window.gsap) {
-    if ((isIOS && isSafari) || (isMobileViewport && !window.matchMedia('(min-width: 769px)').matches)) {
+    if ((isIOS && isSafari) || reducedMotion) {
       heroRevealLoader.remove();
       return;
     }
