@@ -90,11 +90,12 @@
 
   <!-- ===== SECTION 1: HERO ===== -->
   <section id="hero" class="hero">
-    <video autoplay muted loop playsinline class="hero-video" poster="assets/images/hero-images/hero-illustration.png">
+    <video autoplay muted loop playsinline webkit-playsinline preload="metadata" disablepictureinpicture disableremoteplayback class="hero-video" poster="assets/images/hero-images/hero-illustration.png">
       <source src="assets/videos/hero-loop-video.webm" type="video/webm">
       <source src="assets/videos/hero-loop-video.mp4" type="video/mp4">
     </video>
     <div class="hero-overlay"></div>
+    <button class="hero-video-play" type="button" aria-label="Play hero background video">Play motion</button>
 
     <!-- Corner decorative element (upper right) -->
     <img src="assets/images/hero-images/hero-corner-element.png" fetchpriority="high" rel="preload" alt="" class="hero-corner-element" aria-hidden="true">

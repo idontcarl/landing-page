@@ -245,6 +245,35 @@ video::-webkit-media-controls-start-playback-button {
   z-index: 1;
 }
 
+.hero-video-play {
+  display: none;
+  position: absolute;
+  top: 5.25rem;
+  left: 1.25rem;
+  z-index: 4;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.5rem;
+  padding: 0.55rem 0.9rem;
+  border: 1px solid rgba(228, 221, 205, 0.7);
+  border-radius: 999px;
+  background: rgba(32, 28, 68, 0.75);
+  color: var(--cream);
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.hero.hero-video-autoplay-blocked .hero-video {
+  visibility: hidden;
+}
+
+.hero.hero-video-autoplay-blocked .hero-video-play {
+  display: inline-flex;
+}
+
 /* Hero text will be animated by GSAP from a blurred state */
 .hero-title, .hero-subtext {
   will-change: filter, opacity;
@@ -2419,18 +2448,22 @@ a, button {
 
   .footer-portrait {
     width: min(100%, 440px);
-    margin: 0 auto -120px -8px;
+    margin: 0 auto;
     position: relative;
     z-index: 2;
   }
 
   .footer-loop-bg {
     position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    top: 0;
+    bottom: auto;
+    left: 50%;
+    right: auto;
     z-index: 1;
-    width: 100%;
+    width: auto;
+    max-width: none;
+    height: 100%;
+    transform: translateX(-50%);
   }
 
   .footer-corner {

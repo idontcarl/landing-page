@@ -11,8 +11,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const heroRevealWindow = heroRevealLoader?.querySelector('.hero-reveal-window');
   const heroRevealVideo = heroRevealLoader?.querySelector('.hero-reveal-video');
   const heroVideo = document.querySelector('.hero-video');
+  const heroSection = document.querySelector('.hero');
+  const heroVideoPlayButton = document.querySelector('.hero-video-play');
 
-  const configureAndPlayVideo = (video) => {
+  const setHeroVideoFallback = (isBlocked) => {
+    if (!heroSection) return;
+    heroSection.classList.toggle('hero-video-autoplay-blocked', isBlocked);
+  };
+
+  const configureAndPlayVideo = (video, showFallbackOnFailure = false) => {
     if (!video || shouldUseStaticHero) return;
 
     // The JS property is required by some mobile browsers; the HTML attributes
@@ -23,19 +30,39 @@ document.addEventListener('DOMContentLoaded', () => {
     video.playsInline = true;
     video.setAttribute('muted', '');
     video.setAttribute('playsinline', '');
+    video.setAttribute('webkit-playsinline', '');
 
-    const playAttempt = video.play();
+    let playAttempt;
+    try {
+      playAttempt = video.play();
+    } catch (error) {
+      if (showFallbackOnFailure) setHeroVideoFallback(true);
+      return;
+    }
+
     if (playAttempt && typeof playAttempt.catch === 'function') {
-      playAttempt.catch(() => {
-        // Keep the poster/fallback visible if autoplay is disallowed. A later
-        // user gesture may still begin the muted loop without blocking the page.
-        document.addEventListener('pointerdown', () => video.play().catch(() => {}), { once: true, passive: true });
-      });
+      playAttempt
+        .then(() => {
+          if (showFallbackOnFailure) setHeroVideoFallback(false);
+        })
+        .catch(() => {
+          // Low Power Mode and similar iOS policies can prohibit autoplay.
+          // Use the hero's image fallback instead of Safari's intrusive native
+          // play affordance; the visible button resumes video on a user tap.
+          if (showFallbackOnFailure) setHeroVideoFallback(true);
+        });
     }
   };
 
-  configureAndPlayVideo(heroVideo);
+  configureAndPlayVideo(heroVideo, isMobileViewport);
   if (!shouldSkipHeroReveal) configureAndPlayVideo(heroRevealVideo);
+
+  if (heroVideoPlayButton) {
+    heroVideoPlayButton.addEventListener('click', () => {
+      setHeroVideoFallback(false);
+      configureAndPlayVideo(heroVideo, true);
+    });
+  }
 
   if (shouldUseStaticHero) {
     if (heroVideo) {
@@ -102,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Ignore sync errors on browsers that restrict setting currentTime early.
               }
             }
-            configureAndPlayVideo(heroVideo);
+            configureAndPlayVideo(heroVideo, isMobileViewport);
           }, '-=0.18')
           .to(heroRevealLoader, {
             autoAlpha: 0,
