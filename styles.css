@@ -91,24 +91,11 @@ html {
 
 /* --- ACCESSIBILITY: REDUCE MOTION --- */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-  .pillar-column {
-    animation: none !important;
-  }
+  .hero-reveal-loader,
   .custom-cursor {
     display: none !important;
   }
-  .marquee-track {
-    animation: none !important;
-  }
-  .hero-reveal-loader {
-    display: none !important;
-  }
+
   .hero-title,
   .hero-subtext,
   .intro-label,
@@ -118,11 +105,14 @@ html {
   .endorsements-heading,
   .endorsement-quote,
   .endorsement-author,
-  .stat-item,
   .fade-in-up {
     opacity: 1 !important;
     filter: none !important;
     transform: none !important;
+  }
+
+  .slot-machine-track {
+    animation-duration: 20s !important;
   }
 }
 
@@ -1431,6 +1421,18 @@ video::-webkit-media-controls-start-playback-button {
   text-align: center;
 }
 
+.membership-content-wrapper {
+  opacity: 0;
+  transform: scale(0.95);
+  transition: opacity 1s ease 0.8s, transform 1s ease 0.8s;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 .corner-left {
   position: absolute;
   bottom: 0;
@@ -1469,14 +1471,6 @@ video::-webkit-media-controls-start-playback-button {
   100% { transform: translate(0, 0); opacity: 1; }
 }
 
-.membership-content-wrapper {
-  opacity: 0;
-  transform: scale(0.95);
-  transition: opacity 1s ease 0.8s, transform 1s ease 0.8s;
-  position: relative;
-  z-index: 2;
-}
-
 .membership-container.animate .membership-content-wrapper {
   opacity: 1;
   transform: scale(1);
@@ -1489,6 +1483,8 @@ video::-webkit-media-controls-start-playback-button {
   margin-bottom: 3.5rem;
   font-weight: 700;
   letter-spacing: 0px;
+  text-align: center;
+  width: 100%;
 }
 
 .membership-logos {
@@ -1811,13 +1807,15 @@ a, button {
   z-index: 2;
   flex: 0 0 500px;
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: flex-end;
+  margin-top: 0.5rem;
+  overflow: visible;
 }
 
 .footer-loop-bg {
   position: absolute;
-  top: 40%;
+  top: 42%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 140%;
@@ -1832,9 +1830,10 @@ a, button {
   max-width: 500px;
   height: auto;
   display: block;
-  margin-bottom: 0px;
+  margin-bottom: 0;
   position: relative;
   z-index: 2;
+  align-self: end;
 }
 
 .footer-bottom-strip {

@@ -2,9 +2,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const isMobileViewport = window.matchMedia('(max-width: 768px)').matches;
   const supportsFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+  const shouldUseStaticHero = (isIOS && isSafari) || (isMobileViewport && !window.matchMedia('(min-width: 769px)').matches);
   const mobileToggleActions = 'play none none none';
 
-  if (isMobileViewport || reducedMotion) {
+  if (shouldUseStaticHero) {
     const heroVideo = document.querySelector('.hero-video');
     const heroRevealLoader = document.getElementById('hero-reveal-loader');
 
@@ -36,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const heroVideo = document.querySelector('.hero-video');
 
   if (heroRevealLoader && heroRevealWindow && window.gsap) {
-    if (isMobileViewport || reducedMotion) {
+    if ((isIOS && isSafari) || (isMobileViewport && !window.matchMedia('(min-width: 769px)').matches)) {
       heroRevealLoader.remove();
       return;
     }
