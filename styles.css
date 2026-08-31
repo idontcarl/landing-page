@@ -2404,13 +2404,9 @@ a, button {
 
   .footer-portrait {
     width: min(100%, 440px);
-    margin: 0 auto -50px -8px;
+    margin: 0 auto -120px -8px;
     position: relative;
     z-index: 2;
-  }
-
-  .footer-section {
-    position: relative;
   }
 
   .footer-loop-bg {
@@ -2419,6 +2415,7 @@ a, button {
     left: 0;
     right: 0;
     z-index: 1;
+    width: 100%;
   }
 
   .footer-corner {
@@ -2850,6 +2847,79 @@ a, button {
     right: 1.5rem;
     gap: 1.25rem;
     font-size: 0.75rem;
+  }
+}
+
+/* === TABLET MEDIA QUERIES (769px - 1024px) === */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .footer-contact-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .footer-linkedin-btn {
+    height: 40px;
+    width: auto;
+    display: block;
+    flex-shrink: 0;
+  }
+
+  .footer-email {
+    font-size: 1.4rem;
+    display: block;
+  }
+
+  /* Tablet Portrait - ensure LinkedIn button shows */
+  @media (orientation: portrait) {
+    .footer-content-left {
+      width: 100%;
+      text-align: center;
+    }
+
+    .footer-contact-row {
+      justify-content: center;
+      gap: 0.75rem;
+    }
+
+    .footer-linkedin-link {
+      display: inline-flex;
+    }
+
+    .footer-email {
+      display: inline;
+    }
+  }
+
+  /* Tablet Landscape - align LinkedIn button with email inline */
+  @media (orientation: landscape) {
+    .footer-container {
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 2rem;
+    }
+
+    .footer-content-left {
+      flex: 1;
+      text-align: left;
+    }
+
+    .footer-contact-row {
+      justify-content: flex-start;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .footer-linkedin-link {
+      display: inline-flex;
+      flex-shrink: 0;
+    }
+
+    .footer-email {
+      display: inline;
+      white-space: nowrap;
+    }
   }
 }
 

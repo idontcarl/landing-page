@@ -4,34 +4,40 @@ document.addEventListener('DOMContentLoaded', () => {
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
   const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-  const shouldUseStaticHero = (isIOS && isSafari) || reducedMotion;
+  const shouldUseStaticHero = reducedMotion;
   const mobileToggleActions = 'play none none none';
 
-  if (shouldUseStaticHero) {
-    const heroVideo = document.querySelector('.hero-video');
-    const heroRevealLoader = document.getElementById('hero-reveal-loader');
+  // Ensure hero video plays on all devices, including mobile Safari
+  const heroVideo = document.querySelector('.hero-video');
+  if (heroVideo && !shouldUseStaticHero) {
+    // Show the video and ensure it's ready to play
+    heroVideo.style.display = 'block';
+    heroVideo.setAttribute('autoplay', '');
+    heroVideo.setAttribute('muted', '');
+    heroVideo.setAttribute('loop', '');
+    heroVideo.setAttribute('playsinline', '');
+    
+    // Attempt to play immediately
+    const playAttempt = heroVideo.play();
+    if (playAttempt && typeof playAttempt.catch === 'function') {
+      playAttempt.catch(() => {
+        // If autoplay fails, set up click handler to play on user interaction
+        document.addEventListener('click', () => {
+          heroVideo.play().catch(() => {});
+        }, { once: true });
+      });
+    }
+  }
 
+  if (shouldUseStaticHero) {
+    const heroRevealLoader = document.getElementById('hero-reveal-loader');
     if (heroVideo) {
       heroVideo.pause();
       heroVideo.removeAttribute('autoplay');
       heroVideo.style.display = 'none';
     }
-
     if (heroRevealLoader) {
       heroRevealLoader.remove();
-    }
-  } else if (isIOS && isSafari) {
-    // Ensure video plays on iOS Safari (sometimes autoplay is blocked)
-    const heroVideo = document.querySelector('.hero-video');
-    if (heroVideo) {
-      // Attempt to play with user gesture
-      const playAttempt = heroVideo.play();
-      if (playAttempt && typeof playAttempt.catch === 'function') {
-        playAttempt.catch(() => {
-          // Autoplay failed, will use poster image as fallback
-          heroVideo.style.opacity = '0.8';
-        });
-      }
     }
   }
 
