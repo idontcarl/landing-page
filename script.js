@@ -20,6 +20,19 @@ document.addEventListener('DOMContentLoaded', () => {
     if (heroRevealLoader) {
       heroRevealLoader.remove();
     }
+  } else if (isIOS && isSafari) {
+    // Ensure video plays on iOS Safari (sometimes autoplay is blocked)
+    const heroVideo = document.querySelector('.hero-video');
+    if (heroVideo) {
+      // Attempt to play with user gesture
+      const playAttempt = heroVideo.play();
+      if (playAttempt && typeof playAttempt.catch === 'function') {
+        playAttempt.catch(() => {
+          // Autoplay failed, will use poster image as fallback
+          heroVideo.style.opacity = '0.8';
+        });
+      }
+    }
   }
 
   if (reducedMotion) {
