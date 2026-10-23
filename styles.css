@@ -1550,6 +1550,7 @@ video::-webkit-media-controls-start-playback-button {
   background-color: var(--dark-green);
   position: relative;
   overflow: hidden;
+  overflow-x: clip;
 }
 
 .grain-overlay {
@@ -2001,10 +2002,13 @@ a, button {
   .testimonials-content {
     grid-template-columns: 0.8fr 1.2fr;
     gap: 2rem;
+    padding: 3rem 2rem;
   }
 
   .testimonials-image-bar {
     flex: 0 0 100px;
+    min-width: 0;
+    overflow: hidden;
   }
 
   .projects-carousel-container {
@@ -2882,6 +2886,20 @@ a, button {
 }
 
 @media (max-width: 1024px) {
+  .stats-circles-bg {
+    width: 100%;
+  }
+
+  .testimonials-content,
+  .testimonials-col,
+  .testimonial-card {
+    min-width: 0;
+  }
+
+  .testimonials-content {
+    grid-template-columns: 1fr;
+  }
+
   .top-nav {
     top: 2rem;
     right: 2.5rem;
@@ -2891,6 +2909,7 @@ a, button {
 
 @media (max-width: 768px) {
   .top-nav {
+    position: absolute;
     top: 1.5rem;
     right: 1.5rem;
     gap: 1.25rem;
